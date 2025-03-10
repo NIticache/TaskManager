@@ -1,8 +1,16 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { toggleTask,deleteTask } from "../slice/taskSlice";
-
-export const TaskCard =({task})=>{
+interface Task {
+    id: number;
+    title: string;
+    completed: boolean;
+  }
+  
+  interface TaskCardProps {
+    task: Task;
+  }
+export const TaskCard: React.FC<TaskCardProps> =({task})=>{
     const dispatch=useDispatch()
 return <div style={styles.taskContainer}>
     <div  style={styles.leftSection}> <input type="checkbox" checked={task.completed} onChange={()=>dispatch(toggleTask(task.id))} style={styles.checkBox}/>
@@ -12,7 +20,7 @@ return <div style={styles.taskContainer}>
 </div>
 }
 
-const styles={
+const styles : { [key: string]: React.CSSProperties }={
     taskContainer:{
         display :"grid",
         justifyContent:"space-between",
@@ -38,7 +46,7 @@ const styles={
     },
     taskTitle:{
         fontSize:"16px",
-        wordBreak:"break-wrod",
+        wordBreak:"break-word",
         maxWidth:"70%"
 
     }

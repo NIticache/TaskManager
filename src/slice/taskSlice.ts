@@ -1,24 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
- const initialState= {
-    tasks:[]
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+export interface Task {
+    id: number;
+    title: string;
+    completed: boolean;
+  }
+  
+  interface TaskState {
+    tasks: Task[];
+  }
+  
+  const initialState: TaskState = {
+    tasks: []
+  };
 
 export const taskSlice =createSlice({
 name:"tasks",
 initialState,reducers:{
-    addTask:(state,action)=>{
+    addTask:(state,action: PayloadAction<Task>)=>{
         state.tasks.push(action.payload)
     },
-    toggleTask:((state,action)=>{
+    toggleTask:((state,action: PayloadAction<number>)=>{
         state.tasks=state.tasks.map((task)=>task.id === action.payload ?{...task,completed:!task.completed}:task)
        
     }),
-    deleteTask:((state,action)=>{
+    deleteTask:((state,action: PayloadAction<number>)=>{
         state.tasks=state.tasks.filter((task)=>task.id !== action.payload )
        
     }),
-    importTasks:((state,action)=>{
+    importTasks:((state,action: PayloadAction<Task[]>)=>{
         state.tasks=[...state.tasks,...action.payload]
        
     }),
