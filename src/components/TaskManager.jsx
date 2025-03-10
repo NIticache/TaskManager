@@ -10,6 +10,9 @@ export const TaskManager =()=>{
  const dispatch=useDispatch();
  const tasks =useSelector((state)=>state.tasks.tasks)
  console.log(tasks,"tasks")
+
+
+
  const handleAddTask=()=>{
     if(title.trim()!=="")
     {
@@ -23,17 +26,51 @@ export const TaskManager =()=>{
 const filteredTasks =tasks.filter((task)=>filter==="all"?true:filter==="completed" ?task.completed:!task?.completed)
 return (<>
 
-
-<input value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Add a new Task"/>
-
+<div>Task Manager</div>
+<div style={styles?.taskWrapper}>
+    <div style={styles.inputContainer}>
+<input value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Add a new Task" />
 <button onClick={handleAddTask}>Add Task</button>
-<select onChange={(e)=>setFilter( e.target.value)} >
+
+    </div>
+    <p>Filter :</p>
+    <select onChange={(e)=>setFilter( e.target.value)} >
     <option value="all">All</option>
     <option value ="completed">Completed</option>
     <option value ="pending">Pending</option>
 
 </select>
+<div style={styles?.taskList}>
 {filteredTasks?.length >0 ?filteredTasks.map((task)=><TaskCard task={task}/>):<h2>{`No Tasks :)`}</h2>}
 
+</div>
+</div>
+
+
+
 </>)
+}
+const styles={
+    taskWrapper:{
+        width:"90%",
+       
+        background:"#fff",
+        padding:"20px",
+        borderRadius:"8px",
+
+    },
+    inputContainer:{
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"space-between",
+        gap:"10px"
+    },
+   taskList:{
+    display:"grid",
+    gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr)",
+    justifyContent:"center",
+    marginTop:"2rem",
+    gap:"10px"
+   }
+
 }
