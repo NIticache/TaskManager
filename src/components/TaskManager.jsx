@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "../slice/taskSlice";
+import { addTask, importTasks } from "../slice/taskSlice";
 import { TaskCard } from "./TaskCard";
 
 export const TaskManager =()=>{
@@ -9,8 +9,21 @@ export const TaskManager =()=>{
  const[filter,setFilter]=useState("all")
  const dispatch=useDispatch();
  const tasks =useSelector((state)=>state.tasks.tasks)
- console.log(tasks,"tasks")
-
+const handelFetch= async()=>{
+     const fetchTasks= async()=>{
+        try{
+           const res= await  fetch("/tasks.json");
+           const data=await res.json()
+           console.log(data,"data")
+           dispatch(importTasks(data))
+        }
+        catch(error){
+            console.log(error)
+        }
+        
+     }
+     fetchTasks()
+}
 
 
  const handleAddTask=()=>{
@@ -22,7 +35,7 @@ export const TaskManager =()=>{
     }
     setTitle("")
  }
-
+console.log(tasks,"tasks")
 const filteredTasks =tasks.filter((task)=>filter==="all"?true:filter==="completed" ?task.completed:!task?.completed)
 return (<>
 
@@ -31,7 +44,7 @@ return (<>
     <div style={styles.inputContainer}>
 <input value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Add a new Task" />
 <button onClick={handleAddTask}>Add Task</button>
-
+<button onClick={handelFetch}>Fetch Tasks</button>
     </div>
     <p>Filter :</p>
     <select onChange={(e)=>setFilter( e.target.value)} >

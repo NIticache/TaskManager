@@ -18,9 +18,13 @@ initialState,reducers:{
         state.tasks=state.tasks.filter((task)=>task.id !== action.payload )
        
     }),
+    importTasks:((state,action)=>{
+        state.tasks=[...state.tasks,...action.payload]
+       
+    }),
 }
 
 })
 
-export const{addTask,toggleTask,deleteTask}=taskSlice.actions;
+export const{addTask,toggleTask,deleteTask,importTasks}=taskSlice.actions;
 export default taskSlice.reducer;
